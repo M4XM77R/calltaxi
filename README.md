@@ -23,11 +23,11 @@ This is the Repository of our selfcreated FiveM Taxi Script. This Script is stil
 
 ```
 cd resources
-git clone https://github.com/EinSchnitzelchen/Schnitzl-basics
+git clone https://github.com/M4XM77R/esx_calltaxi
 ```
 
 ## Manually ##
-- Download https://github.com/EinSchnitzelchen/Schnitzl-basics/releases/latest
+- Download https://github.com/M4XM77R/releases/latest
 - Put it in the `resources/` directory
 
 ## Installation ##
@@ -35,7 +35,7 @@ git clone https://github.com/EinSchnitzelchen/Schnitzl-basics
 - Make sure you add this at the bottom of your start order after all esx scripts
 
 ```
-ensure Schnitzl-basics
+start esx_calltaxi
 ```
 
 ## License ##
