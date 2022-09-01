@@ -10,7 +10,7 @@ RegisterCommand("calltaxi", function(source, args, rawCommand)
 end)
 
 
-function GetNearestSpawn(plyCoords){
-	-- TO DO nächsten spawnpunkt berechnen
+function GetNearestSpawn(plyCoords){			-- TO DO nächsten spawnpunkt berechnen
+	
 	return nearestSpawn
 }
