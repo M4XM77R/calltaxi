@@ -1,8 +1,16 @@
 RegisterCommand("calltaxi", function(source, args, rawCommand)
+    local plyPed = PlayerPedId()
+    local npc = nil
+    local veh = nil
+    local plyCoords = GetEntityCoords(plyPed)
+    local nearestSpawn = nil
 
-local plyPed = PlayerPedId()
-local npc = nil
-local plyCoords = GetEntityCoords(plyPed)
-
-    npc = CreatePed(4, Config.NpcHash, plyCoords.x, plyCoords.y, plyCoords.z, 0, true, true)
+    nearestSpawn = GetNearestSpawn(plyCoords)
+    
 end)
+
+
+function GetNearestSpawn(plyCoords){
+	-- TO DO nächsten spawnpunkt berechnen
+	return nearestSpawn
+}
