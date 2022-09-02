@@ -11,8 +11,23 @@ end)
 
 
 function GetNearestSpawn(plyCoords)			-- TO DO nächsten spawnpunkt berechnen
-	local toDownTownCab = nil
-	toDownTownCab = GetDistanceBetweenCoords(plyCoords.x, plyCoords.y, 0, Config.SpawnPoints.DownTownCab.x, Config.SpawnPoints.DownTownCab.y, 0, false)
-	print toDownTownCab
+	
 	return nearestSpawn
+end
+
+function getClosestCoords(_table) -- Function that returns
+    local cCoords = nil -- Replaced with the closest coordinates
+    local cDistance = 100000 -- This is replaced by the closest distance we are to any coordinates
+    local plyPed = PlayerPedId()
+    local coords = GetEntityCoords(plyPed)
+
+    for _, v in pairs(Config.SpawnPoints) do -- Loop through a table with coordinates
+        local _Distance = #(v - _Coord)
+        if _Distance <= cDistance then
+            cDistance = _Distance
+            cCoords = v
+        end
+    end
+    print(coords)
+    return cCoords
 end
