@@ -3,8 +3,8 @@ Config = {}
 Config.hash = -573920724 -- hash of Taxidriver
 Config.vehicleHash = -956048545 -- hash of Taxi
 Config.Price = 200 --price per km
-Config.Speed = 20.0 -- Taxispeed (in player speed
-Config.DriveMode = 524863
+Config.Speed = 100 -- Taxispeed (in player speed
+Config.DriveMode = 447
 Config.SpawnBase = vector3(911.24, -177.84, 74.29)
 Config.SpawnPoints = {
 	DownTownCab = {x = 911.24, y = -177.84, z = 74.29, h = 240.32},
