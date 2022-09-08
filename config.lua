@@ -1,13 +1,13 @@
 Config = {}
 
-Config.hash = -573920724 -- hash of Taxidriver
-Config.vehicleHash = -956048545 -- hash of Taxi
+Config.hash = -573920724 -- hash of NPC driving (you can see more here: https://wiki.rage.mp/index.php?title=Peds)
+Config.vehicleHash = -956048545 -- hash of Vehicle (Recommended: -956048545 (Downtown Labs))
 Config.Price = 200 --price per km
-Config.Speed = 100 -- Taxispeed (in player speed
-Config.DriveMode = 447
+Config.Speed = 100 -- Taxispeed (in player speed)
+Config.DriveMode = 447 --https://vespura.com/fivem/drivingstyle/
 Config.SpawnBase = vector3(911.24, -177.84, 74.29)
 Config.SpawnPoints = {
-	DownTownCab = {x = 911.24, y = -177.84, z = 74.29, h = 240.32},
+	DownTownCab = {x = 918.31, y = -181.50, z = 73.37, h = 327.4433},
 	AirPort = {x = -731.76, y = -2575.79, z = 13.83, h = 332.92},
 	Ulsa = {x = -1612.60, y = 174.93, z = 59.80, h = 204.96},
 	SandyShores = {x = 1771.84, y = 3660.44, z = 34.37, h = 30.81},

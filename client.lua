@@ -1,3 +1,4 @@
+ESX = nil
 local plyPed = PlayerPedId()
 local plyCoords = GetEntityCoords(plyPed)
 local taxiCoords = nil
@@ -6,12 +7,20 @@ local veh = nil
 local nearestSpawn = nil
 local isTaxiAlreadyOrdered = false
 
+
+Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+end)
+
 RegisterCommand("calltaxi", function(source, args, rawCommand)
     plyCoords = GetEntityCoords(plyPed)
     if not isTaxiAlreadyOrdered then
         ShowNotification("Ok, ein Taxi ist bestellt")
         isTaxiAlreadyOrdered = true
-        for k,v in pairs(Config.SpawnPoints) do
+        for k,v in pairs(Config.SpawnPoints) do                        -- Gets closest Spawnpoint
             heading = v.h
             v = vector3(v.x, v.y, v.z)
             spawnDistance = GetDistanceBetweenCoords(plyCoords, v)
@@ -28,7 +37,7 @@ RegisterCommand("calltaxi", function(source, args, rawCommand)
             end
         end
         print(realSpawnPoint)
-        while not HasModelLoaded(Config.hash) do
+        while not HasModelLoaded(Config.hash) do            --check if models are loaded
             RequestModel(Config.hash)
             print('loading model')
             Wait(50)
@@ -38,18 +47,18 @@ RegisterCommand("calltaxi", function(source, args, rawCommand)
             print('loading vehModel')
             Wait(50)
         end
-        npc = CreatePed(0, Config.hash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z + 2, 0,0, true, true)
+        npc = CreatePed(0, Config.hash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z, 0,0, true, true)
         veh = CreateVehicle(Config.vehicleHash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z, 0,0, true, true)
         SetEntityAsMissionEntity(veh, true, true)
         TaskWarpPedIntoVehicle(npc, veh, -1)
         Wait(math.random(1000,2000))
+        TaskVehicleDriveToCoord(npc, veh, plyCoords.x, plyCoords.y, plyCoords.z, 99, Config.DriveMode, 0)
         ShowNotification('Das Taxi fährt gerade los')                                                                            --ISSUE: Taxi fährt nicht los
-        TaskVehicleDriveToCoordLongrange(npc, veh, plyCoords.x, plyCoords.y, plyCoords.z, Config.speed, Config.DriveMode, 20.0)
         while true do
-            Wait(1)
+            Wait(10)
             taxiCoords = GetEntityCoords(npc)
             dist = (plyCoords.xy - taxiCoords.xy)
-            if dist < 50 then
+            if dist < 1 then
                 ClearVehicleTasks(veh)
                 break
             end
@@ -64,5 +73,5 @@ end)
 function ShowNotification(text)
 	SetNotificationTextEntry("STRING")
 	AddTextComponentString(text)
-	DrawNotification(false, false)
+	DrawNotification(false, false) 
 end
