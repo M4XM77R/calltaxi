@@ -15,7 +15,7 @@ This is the Repository of our selfcreated FiveM Taxi Script. This Script is stil
 
 ## Requirements ##
 
-- none
+- [es_extended](https://github.com/ESX-Org/es_extended)
 
 ## Download & Installation ##
 
