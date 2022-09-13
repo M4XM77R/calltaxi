@@ -1,4 +1,4 @@
-ESX = nil
+--ESX = nil
 local plyPed = PlayerPedId()
 local plyCoords = GetEntityCoords(plyPed)
 local taxiCoords = nil
@@ -8,12 +8,12 @@ local nearestSpawn = nil
 local isTaxiAlreadyOrdered = false
 
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
-end)
+end)]]
 
 RegisterCommand("calltaxi", function(source, args, rawCommand)
     plyCoords = GetEntityCoords(plyPed)
@@ -42,80 +42,92 @@ RegisterCommand("calltaxi", function(source, args, rawCommand)
             print('loading model')
             Wait(50)
         end
+
         while not HasModelLoaded(Config.vehicleHash) do
             RequestModel(Config.vehicleHash)
             print('loading vehModel')
             Wait(50)
         end
+        
         npc = CreatePed(0, Config.hash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z, 0,0, true, true)
         veh = CreateVehicle(Config.vehicleHash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z, 0,0, true, true)
         SetEntityAsMissionEntity(veh, true, true)
         TaskWarpPedIntoVehicle(npc, veh, -1)
         SetVehicleHasBeenOwnedByPlayer(veh, true)
         Wait(math.random(1000,2000))
-        TaskVehicleDriveToCoord(npc, veh, plyCoords.x + 2, plyCoords.y + 2, plyCoords.z, 75.0, Config.DriveMode, 10.0)
+        --Drive(plyCoords.x, plyCoords.y, plyCoords.z, false, "start")
         ShowNotification('Das Taxi fährt gerade los')
-        TaxiBlib = AddBlipForEntity(veh)
-        SetBlipAsFriendly(TaxiBlip, true)                                                                        
+        TaskVehicleDriveToCoordLongrange(npc, veh, plyCoords.x, plyCoords.y, plyCoords.z, Config.Speed, Config.DriveMode, 20.0)
+        CreateBlip()
+
+
         while true do
-            Wait(10)
+            Wait(1)
             taxiCoords = GetEntityCoords(npc)
             dist = (plyCoords.xy - taxiCoords.xy)
-            if (dist.x < 2.0) and (dist.y < 2.0) then -- taxi hält durchaus auch mal so 1200 units weg an und denkt so "ja wo is er jz"
+            if (dist.x < 2.0) and (dist.y < 2.0) and (dist.x < -2.0) and (dist.y < -2.0) then
                 FreezeEntityPosition(veh, true)
                 FreezeEntityPosition(npc, true)
                 ClearVehicleTasks(veh)
-                print('halt an du dulli')
+                print('Anjehalten!')
                 break
             end
         end
 
         isTaxiAlreadyOrdered = false
+
     else
-        ShowNotification("Es ist schon ein Taxi auf dem Weg")
+
+        ShowNotification('is schon ein Taxi aufm Weg')
+    
     end
 end)
 
+
+
+--Add Notifications
 function ShowNotification(text)
 	SetNotificationTextEntry("STRING")
 	AddTextComponentString(text)
 	DrawNotification(false, false) 
 end
 
---[[ESX.Game.SpawnVehicle(vehicleHash, realSpawnPoint, heading, function(callback_vehicle)
-    TaskWarpPedIntoVehicle(ped, callback_vehicle, -1)
-    SetVehicleHasBeenOwnedByPlayer(callback_vehicle, true)
-    globalTaxi = callback_vehicle
-    SetEntityAsMissionEntity(globalTaxi, true, true)
-    drive(customer.x, customer.y, customer.z, false, 'start')
-    end)]]
-    
-    FreezeEntityPosition(veh, true)
-    FreezeEntityPosition(npc, true)
+
+-- Creating Blip
+function CreateBlip()
+    local blip = GetBlipFromEntity(npc)
+    if not DoesBlipExist(blip) then -- Add blip
+        blip = AddBlipForEntity(npc) -- Create and "Stick" the Blip to Entity
+        SetBlipSprite(blip, Config.BlipSprite)
+        SetBlipColour(blip, Config.BlipColor)
+        SetBlipScale(blip, Config.BlipScale)
+        ShowHeadingIndicatorOnBlip(blip, true) -- Player Blip indicator
+        SetBlipRotation(blip, math.ceil(GetEntityHeading(npc))) -- update rotation
+        SetBlipAsShortRange(blip, false)
+    end
+end
 
 
+
+--add drive Function
+--[[function drive(x, y, z, delete, status)
+	if status == 'start' then
+		Citizen.Wait(math.random(1000,3000))
+		ShowNotification('Ein Fahrer ist auf dem Weg zu Ihnen.')
+	elseif status == 'end' then
+		ShowNotification('Vielen Dank für Ihr Vertrauen.')
+	end
+	TaskVehicleDriveToCoordLongrange(npc, veh, x, y, z, Config.Speed, Config.DriveMode, 20.0)
+	if delete then
+		Citizen.Wait(15000)
+		DeletePed(ped)
+		DeleteVehicle(veh)
+	end
+end]]
 
 
 
 --[[
-
-function createBlip(id)
-	local ped = GetPlayerPed(id)
-	local blip = GetBlipFromEntity(ped)
-
-	if not DoesBlipExist(blip) then -- Add blip and create head display on player
-		blip = AddBlipForEntity(ped)
-		SetBlipSprite(blip, 1)
-		ShowHeadingIndicatorOnBlip(blip, true) -- Player Blip indicator
-		SetBlipRotation(blip, math.ceil(GetEntityHeading(ped))) -- update rotation
-		SetBlipNameToPlayerName(blip, id) -- update blip name
-		SetBlipScale(blip, 0.85) -- set scale
-		SetBlipAsShortRange(blip, true)
-
-		table.insert(blipsCops, blip) -- add blip to array so we can remove it later
-	end
-end
-
 RegisterNetEvent('esx_policejob:updateBlip')
 AddEventHandler('esx_policejob:updateBlip', function()
 
@@ -127,5 +139,3 @@ AddEventHandler('esx_policejob:updateBlip', function()
 	-- Clean the blip table
 	blipsCops = {}
 ]]
-
---HERE

@@ -1,10 +1,20 @@
 Config = {}
 
 Config.hash = -573920724 -- hash of NPC driving (you can see more here: https://wiki.rage.mp/index.php?title=Peds)
+
 Config.vehicleHash = -956048545 -- hash of Vehicle (Recommended: -956048545 (Downtown Labs))
+
 Config.Price = 2000 --price per km
-Config.Speed = 100.0 -- Taxispeed (in player speed)
-Config.DriveMode = 1574 --447 --https://vespura.com/fivem/drivingstyle/
+
+Config.Speed = 75.0 -- Taxispeed (in player speed)
+
+Config.DriveMode = 787968 --788224 --https://vespura.com/fivem/drivingstyle/
+
+--Blip Creation
+Config.BlipSprite = 198 --https://docs.fivem.net/docs/game-references/blips/
+Config.BlipScale = 0.8 --recommended 0.8
+Config.BlipColor = 46
+
 Config.SpawnPoints = {
 	DownTownCab = {x = 918.31, y = -181.50, z = 73.37, h = 327.4433},
 	AirPort = {x = -731.76, y = -2575.79, z = 13.83, h = 332.92},
@@ -15,3 +25,4 @@ Config.SpawnPoints = {
 	MilitaryBase = {x = -2379.27, y = 3471.79, z = 24.46, h = 14.42},
 	ZancudoRiver = {x = -447.34, y = 2866.06, z = 35.98, h = 127.48},
 }
+
