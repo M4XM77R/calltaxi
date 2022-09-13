@@ -51,15 +51,21 @@ RegisterCommand("calltaxi", function(source, args, rawCommand)
         veh = CreateVehicle(Config.vehicleHash, realSpawnPoint.x, realSpawnPoint.y, realSpawnPoint.z, 0,0, true, true)
         SetEntityAsMissionEntity(veh, true, true)
         TaskWarpPedIntoVehicle(npc, veh, -1)
+        SetVehicleHasBeenOwnedByPlayer(veh, true)
         Wait(math.random(1000,2000))
-        TaskVehicleDriveToCoord(npc, veh, plyCoords.x, plyCoords.y, plyCoords.z, 99, Config.DriveMode, 0)
-        ShowNotification('Das Taxi fährt gerade los')                                                                            --ISSUE: Taxi fährt nicht los
+        TaskVehicleDriveToCoord(npc, veh, plyCoords.x + 2, plyCoords.y + 2, plyCoords.z, 75.0, Config.DriveMode, 10.0)
+        ShowNotification('Das Taxi fährt gerade los')
+        TaxiBlib = AddBlipForEntity(veh)
+        SetBlipAsFriendly(TaxiBlip, true)                                                                        
         while true do
             Wait(10)
             taxiCoords = GetEntityCoords(npc)
             dist = (plyCoords.xy - taxiCoords.xy)
-            if dist < 1 then
+            if (dist.x < 2.0) and (dist.y < 2.0) then -- taxi hält durchaus auch mal so 1200 units weg an und denkt so "ja wo is er jz"
+                FreezeEntityPosition(veh, true)
+                FreezeEntityPosition(npc, true)
                 ClearVehicleTasks(veh)
+                print('halt an du dulli')
                 break
             end
         end
@@ -75,3 +81,51 @@ function ShowNotification(text)
 	AddTextComponentString(text)
 	DrawNotification(false, false) 
 end
+
+--[[ESX.Game.SpawnVehicle(vehicleHash, realSpawnPoint, heading, function(callback_vehicle)
+    TaskWarpPedIntoVehicle(ped, callback_vehicle, -1)
+    SetVehicleHasBeenOwnedByPlayer(callback_vehicle, true)
+    globalTaxi = callback_vehicle
+    SetEntityAsMissionEntity(globalTaxi, true, true)
+    drive(customer.x, customer.y, customer.z, false, 'start')
+    end)]]
+    
+    FreezeEntityPosition(veh, true)
+    FreezeEntityPosition(npc, true)
+
+
+
+
+
+--[[
+
+function createBlip(id)
+	local ped = GetPlayerPed(id)
+	local blip = GetBlipFromEntity(ped)
+
+	if not DoesBlipExist(blip) then -- Add blip and create head display on player
+		blip = AddBlipForEntity(ped)
+		SetBlipSprite(blip, 1)
+		ShowHeadingIndicatorOnBlip(blip, true) -- Player Blip indicator
+		SetBlipRotation(blip, math.ceil(GetEntityHeading(ped))) -- update rotation
+		SetBlipNameToPlayerName(blip, id) -- update blip name
+		SetBlipScale(blip, 0.85) -- set scale
+		SetBlipAsShortRange(blip, true)
+
+		table.insert(blipsCops, blip) -- add blip to array so we can remove it later
+	end
+end
+
+RegisterNetEvent('esx_policejob:updateBlip')
+AddEventHandler('esx_policejob:updateBlip', function()
+
+	-- Refresh all blips
+	for k, existingBlip in pairs(blipsCops) do
+		RemoveBlip(existingBlip)
+	end
+
+	-- Clean the blip table
+	blipsCops = {}
+]]
+
+--HERE
