@@ -1,4 +1,4 @@
-# esx_calltaxi | WORK IN PROCESS
+# calltaxi | WORK IN PROCESS
 This is the Repository of our selfcreated FiveM Taxi Script. This Script is still under Heavy development!
 
 ## Need to know ##
@@ -15,7 +15,7 @@ This is the Repository of our selfcreated FiveM Taxi Script. This Script is stil
 
 ## Requirements ##
 
-- [es_extended](https://github.com/ESX-Org/es_extended)
+- none (well FiveM... but uhh that should be obvious)
 
 ## Download & Installation ##
 
@@ -23,7 +23,7 @@ This is the Repository of our selfcreated FiveM Taxi Script. This Script is stil
 
 ```
 cd resources
-git clone https://github.com/M4XM77R/esx_calltaxi
+git clone https://github.com/M4XM77R/calltaxi
 ```
 
 ## Manually ##
@@ -35,11 +35,11 @@ git clone https://github.com/M4XM77R/esx_calltaxi
 - Make sure you add this at the bottom of your start order after all esx scripts
 
 ```
-start esx_calltaxi
+start calltaxi
 ```
 
 ## License ##
-esx_calltaxi - ESX basic scripts
+calltaxi - basic scripts
 
 Copyright (C) 2022 M4XM77R / EinSchnitzelchen
 
