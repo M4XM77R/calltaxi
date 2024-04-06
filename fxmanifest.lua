@@ -2,7 +2,7 @@ fx_version 'cerulean'
 games { 'gta5' }
 
 author "M4XM77R and EinSchnitzelchen"
-description 'esx calltaxi script'
+description 'calltaxi script'
 version '1.0.0'
 
 shared_scripts {
